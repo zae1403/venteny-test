@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../blocs/video_player/video_player_bloc.dart';
 import '../../blocs/videos/videos_bloc.dart';
+import '../../widgets/error_view.dart';
 import 'widgets/video_card.dart';
 import 'widgets/video_preview.dart';
 
@@ -31,11 +32,12 @@ class HomePage extends StatelessWidget {
             orElse: () => const Center(
               child: CircularProgressIndicator.adaptive(),
             ),
-            failure: (failure) {
-              return Center(
-                child: Text(failure.message),
-              );
-            },
+            failure: (failure) => ErrorView(
+              child: Text(failure.message),
+              onRefresh: () {
+                context.read<VideosBloc>().add(const VideosEvent.fetched());
+              },
+            ),
             loadSuccess: (videos) {
               return Column(
                 children: [
