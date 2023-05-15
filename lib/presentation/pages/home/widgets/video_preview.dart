@@ -17,19 +17,27 @@ class _VideoPreviewState extends State<VideoPreview>
     with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<VideoPlayerBloc, VideoPlayerState>(
+    return BlocConsumer<VideoPlayerBloc, VideoPlayerState>(
+      listenWhen: (previous, current) =>
+          previous.errorMessage == null && current.errorMessage != null,
+      listener: (context, state) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(state.errorMessage!),
+          ),
+        );
+      },
       builder: (context, state) {
-        if (state.controller == null) {
-          return const Center(
-            child: CircularProgressIndicator.adaptive(),
-          );
-        }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AspectRatio(
               aspectRatio: state.controller?.aspectRatio ?? 16 / 9,
-              child: Chewie(controller: state.controller!),
+              child: state.controller != null
+                  ? Chewie(controller: state.controller!)
+                  : const Center(child: CircularProgressIndicator.adaptive()),
             ),
             const Divider(height: 0),
             if (state.video != null) _VideoShortDescription(state.video!),

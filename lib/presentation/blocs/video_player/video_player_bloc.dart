@@ -38,8 +38,15 @@ class VideoPlayerBloc extends Bloc<VideoPlayerEvent, VideoPlayerState> {
   Future<void> _initializeController(
       _VideoPlayerPlayed event, Emitter<VideoPlayerState> emit) async {
     _controller = VideoPlayerController.network(event.video.previewUrl!);
-    emit(state.copyWith(video: event.video));
-    await _controller!.initialize();
+    emit(state.copyWith(
+      video: event.video,
+      errorMessage: null,
+    ));
+    try {
+      await _controller!.initialize();
+    } catch (_) {
+      emit(state.copyWith(errorMessage: 'Error initializing video player'));
+    }
     final chewieController = ChewieController(
       videoPlayerController: _controller!,
       autoPlay: true,

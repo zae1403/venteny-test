@@ -237,6 +237,7 @@ abstract class _VideoPlayerPlayed implements VideoPlayerEvent {
 mixin _$VideoPlayerState {
   Video? get video => throw _privateConstructorUsedError;
   ChewieController? get controller => throw _privateConstructorUsedError;
+  String? get errorMessage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $VideoPlayerStateCopyWith<VideoPlayerState> get copyWith =>
@@ -249,7 +250,7 @@ abstract class $VideoPlayerStateCopyWith<$Res> {
           VideoPlayerState value, $Res Function(VideoPlayerState) then) =
       _$VideoPlayerStateCopyWithImpl<$Res, VideoPlayerState>;
   @useResult
-  $Res call({Video? video, ChewieController? controller});
+  $Res call({Video? video, ChewieController? controller, String? errorMessage});
 
   $VideoCopyWith<$Res>? get video;
 }
@@ -269,6 +270,7 @@ class _$VideoPlayerStateCopyWithImpl<$Res, $Val extends VideoPlayerState>
   $Res call({
     Object? video = freezed,
     Object? controller = freezed,
+    Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
       video: freezed == video
@@ -279,6 +281,10 @@ class _$VideoPlayerStateCopyWithImpl<$Res, $Val extends VideoPlayerState>
           ? _value.controller
           : controller // ignore: cast_nullable_to_non_nullable
               as ChewieController?,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -303,7 +309,7 @@ abstract class _$$_VideoPlayerStateCopyWith<$Res>
       __$$_VideoPlayerStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Video? video, ChewieController? controller});
+  $Res call({Video? video, ChewieController? controller, String? errorMessage});
 
   @override
   $VideoCopyWith<$Res>? get video;
@@ -322,6 +328,7 @@ class __$$_VideoPlayerStateCopyWithImpl<$Res>
   $Res call({
     Object? video = freezed,
     Object? controller = freezed,
+    Object? errorMessage = freezed,
   }) {
     return _then(_$_VideoPlayerState(
       video: freezed == video
@@ -332,6 +339,10 @@ class __$$_VideoPlayerStateCopyWithImpl<$Res>
           ? _value.controller
           : controller // ignore: cast_nullable_to_non_nullable
               as ChewieController?,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -339,16 +350,21 @@ class __$$_VideoPlayerStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_VideoPlayerState implements _VideoPlayerState {
-  const _$_VideoPlayerState({required this.video, required this.controller});
+  const _$_VideoPlayerState(
+      {required this.video,
+      required this.controller,
+      required this.errorMessage});
 
   @override
   final Video? video;
   @override
   final ChewieController? controller;
+  @override
+  final String? errorMessage;
 
   @override
   String toString() {
-    return 'VideoPlayerState(video: $video, controller: $controller)';
+    return 'VideoPlayerState(video: $video, controller: $controller, errorMessage: $errorMessage)';
   }
 
   @override
@@ -358,11 +374,13 @@ class _$_VideoPlayerState implements _VideoPlayerState {
             other is _$_VideoPlayerState &&
             (identical(other.video, video) || other.video == video) &&
             (identical(other.controller, controller) ||
-                other.controller == controller));
+                other.controller == controller) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, video, controller);
+  int get hashCode => Object.hash(runtimeType, video, controller, errorMessage);
 
   @JsonKey(ignore: true)
   @override
@@ -374,12 +392,15 @@ class _$_VideoPlayerState implements _VideoPlayerState {
 abstract class _VideoPlayerState implements VideoPlayerState {
   const factory _VideoPlayerState(
       {required final Video? video,
-      required final ChewieController? controller}) = _$_VideoPlayerState;
+      required final ChewieController? controller,
+      required final String? errorMessage}) = _$_VideoPlayerState;
 
   @override
   Video? get video;
   @override
   ChewieController? get controller;
+  @override
+  String? get errorMessage;
   @override
   @JsonKey(ignore: true)
   _$$_VideoPlayerStateCopyWith<_$_VideoPlayerState> get copyWith =>
